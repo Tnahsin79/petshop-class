@@ -1,15 +1,31 @@
-p{
-    font-size: 1.4vw;
-}
-h3{
-    font-size: 2vw;
-}
 .container{
-    background-color: bisque;
-    margin-top: 2vw;
-    margin-bottom: 2vw;
-    border: 2px solid black;
+    border: 1px solid black;
+    background-color: white;
+    margin-top: 3vw;
 }
-h1{
-    font-size: 3vw;
+#remimg{
+    width: 25%;
+    height: 25%;
+}
+video{
+    position: absolute;
+    left: 2.5vw;
+    top: 12vw;
+    height: 25vw;
+    width: 48vw;
+}
+.row{
+    margin: 5px;
+    border: 2px solid black;
+    align-items: center;
+}
+body{
+    text-align: center;
+}
+p{
+    color: red;
+}
+#remimg{
+    height: auto;
+    width: auto;
 }

@@ -1,113 +1,131 @@
-//console.log("hello");
-var petData=[];
-var petstatus=[];
-var enquiryData=[];
+//tv image: https://www.pinpng.com/pngs/m/44-449095_great-flat-screen-tv-apple-interactive-flat-screen.png
+//remote image: https://i5.walmartimages.com/asr/f9499f37-9a34-41b6-9137-13d71487f67e_1.a1b3773c918e96207e22555c9ed71d09.jpeg?odnWidth=612&odnHeight=612&odnBg=ffffff
 
-class AvailableClass {
-    type:string;
-    breed:string;
-    age:number;
-    color:string;
+var title=document.createElement("h1");
+title.innerText="TELEVISION";
+var hr1=document.createElement("hr");
+var hr2=document.createElement("hr");
+var links=[
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+]
+var i=0;
 
-    constructor(type:string,breed:string,age:number,color:string){
-        this.insert(type,breed,age,color);
-    }
+var maindiv=document.createElement("div");
+maindiv.setAttribute("class","container");
 
-    insert(type:string,breed:string,age:number,color:string){
-        this.type=type;
-        this.breed=breed;
-        this.age=age;
-        this.color=color;
-    }
+var row=document.createElement("div");
+row.setAttribute("class","row");
+var tvcol=document.createElement("div");
+tvcol.setAttribute("class","col col-10");
+var remcol=document.createElement("div");
+remcol.setAttribute("class","col col-2")
+
+var tvimg=document.createElement("img");
+tvimg.src="tv.png";
+
+var remimg=document.createElement("img");
+remimg.setAttribute("id","remimg");
+remimg.src="remote.jpeg";
+//remimg.setAttribute("usemap","#image-map");
+remimg.useMap="#image-map";
+
+
+var video=document.createElement("VIDEO");
+video.setAttribute("controls", "controls");
+video.setAttribute("autoplay","true");
+video.setAttribute("id","player");
+video.setAttribute("src","http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4");
+
+tvcol.appendChild(tvimg);
+remcol.appendChild(remimg);
+
+var map=document.createElement("map");
+map.setAttribute("name","image-map");
+
+var volplusmap=document.createElement("area");
+volplusmap.setAttribute("onclick","volplus()");
+volplusmap.setAttribute("coords","115,234,72,312,162,315");
+volplusmap.setAttribute("shape","poly");
+map.appendChild(volplusmap);
+
+var volminusmap=document.createElement("area");
+volminusmap.setAttribute("onclick","volminus()");
+volminusmap.setAttribute("coords","74,366,116,446,160,367");
+volminusmap.setAttribute("shape","poly");
+map.appendChild(volminusmap);
+
+var chplusmap=document.createElement("area");
+chplusmap.setAttribute("onclick","chplus()");
+chplusmap.setAttribute("coords","223,234 181,314 269,316");
+chplusmap.setAttribute("shape","poly");
+map.appendChild(chplusmap);
+
+var chminusmap=document.createElement("area");
+chminusmap.setAttribute("onclick","chminus()");
+chminusmap.setAttribute("coords","180,366 268,368 222,447");
+chminusmap.setAttribute("shape","poly");
+map.appendChild(chminusmap);
+
+
+var volplus=()=>{
+    console.log("hello1");
+    let vol;
+    let vid = <HTMLSelectElement>document.getElementById("player");
+    if(vid.volume<1.0)
+    vid.volume+=0.1;
+}
+var volminus=()=>{
+    console.log("hello2");
+    let vol;
+    let vid = <HTMLSelectElement>document.getElementById("player");
+    if(vid.volume>0.0)
+    vid.volume-=0.1;
+}
+var chplus=()=>{
+    console.log("hello3");
+    if(i===links.length-1)
+    i=0;
+    else
+    i++;
+
+    let doc=document.getElementById("player");
+    doc?.setAttribute("src",links[i]);
+
+}
+var chminus=()=>{
+    console.log("hello4");
+    if(i===0)
+    i=links.length-1;
+    else
+    i--;
+
+    let doc=document.getElementById("player");
+    doc?.setAttribute("src",links[i]);
 }
 
-class RequestClass{
-    status:string[];
-    insert(check:AvailableClass[]){
-        var f;
-        for(var i=0;i<check.length;i++)
-        {
-            f=0;
-            petData.forEach(element => {
-                if((element["type"]===check[i].type)&&(element["breed"]===check[i].breed)&&(element["age"]===check[i].age)&&(element["color"]===check[i].color))
-                {
-                    f=1;
-                    enquiryData.push(check[i]);
-                    petstatus.push("Available");
-                }
-            });
-            if(f===0)
-            {
-                enquiryData.push(check[i]);
-                petstatus.push("Not Available");
-            }
-        }
-    }
-
-}
-
-var result:Object[]; //stores the result for first 5 enquiries
-var findStatus=()=>{
-    console.log("RUNNING findStatus() function");
-    for(let i=0;i<5;i++)
-    {
-        let str=`${enquiryData[i]["type"]},${enquiryData[i]["breed"]},${enquiryData[i]["age"]},${enquiryData[i]["color"]}: ${petstatus[i]}`;
-        console.log(str);
-    }
-}
-
-var count={};
-var countpet=()=>{
-    console.log("RUNNING countpet() function");
-    for(let i=0;i<petData.length;i++)
-    {
-        if(count[petData[i]["type"]]===undefined)
-        count[petData[i]["type"]]=1;
-        else
-        count[petData[i]["type"]]++;
-    }
-}
-
-var mapRequest=()=>{
-    console.log("RUNNING mapRequest() function")
-    for(let i=0;i<5;i++)
-    {
-        if(petstatus[i]==="Available")
-        {
-            let str=`${enquiryData[i]["type"]},${enquiryData[i]["breed"]},${enquiryData[i]["age"]},${enquiryData[i]["color"]}: ${petstatus[i]}`;
-            console.log(str);
-        }
-    }
-}
-
-var pet1=new AvailableClass("dog","lab",7,"black");
-petData.push(pet1);
-var pet2=new AvailableClass("cat","lab",2,"black"); petData.push(pet2);
-var pet3=new AvailableClass("dog","lab",5,"white"); petData.push(pet3);
-var pet4=new AvailableClass("fish","lab",7,"black"); petData.push(pet4);
-var pet5=new AvailableClass("cat","lab",7,"black"); petData.push(pet5);
-var pet6=new AvailableClass("dog","lab",2,"brown"); petData.push(pet6);
-var pet7=new AvailableClass("cat","lab",7,"white"); petData.push(pet7);
-var pet8=new AvailableClass("cat","lab",3,"black"); petData.push(pet8);
-var pet9=new AvailableClass("fish","lab",6,"orange"); petData.push(pet9);
-
-var req1=new AvailableClass("fish","lab",7,"black");
-var req2=new AvailableClass("cat","lab",2,"black");
-var req4=new AvailableClass("fish","lab",6,"black");
-var req5=new AvailableClass("cat","lab",7,"black");
-var req7=new AvailableClass("cat","lab",6,"white");
-var req8=new AvailableClass("cat","lab",3,"black");
+//<img src="remote.jpeg" usemap="#image-map">
+/*row.innerHTML=`
+<map name="image-map">
+    <area onclick="volplus()" coords="115,234,72,312,162,315" shape="poly">
+    <area onclick="volminus()" coords="74,366,116,446,160,367" shape="poly">
+    <area onclick="chplus()" coords="225,235,176,318,273,317" shape="poly">
+    <area onclick="chminus()" coords="267,368,179,367,220,444" shape="poly">
+</map>`;*/
 
 
-var petRequest=new RequestClass();
-petRequest.insert([req1,req2,req4,req5,req7,req8]);
 
-console.log(petData);
-console.log(enquiryData);
-console.log(petstatus);
 
-findStatus();
-countpet();
-console.log(JSON.stringify(count));
-mapRequest();
-
+row.appendChild(tvimg);
+row.appendChild(remimg);
+row.appendChild(map);
+row.appendChild(video);
+document.body.appendChild(title);
+document.body.appendChild(hr1);
+document.body.appendChild(hr2);
+document.body.appendChild(row);
+//maindiv.appendChild(row);
+//document.body.appendChild(maindiv);
